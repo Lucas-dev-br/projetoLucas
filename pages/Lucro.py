@@ -69,11 +69,11 @@ print(df_avg_profit_diff)
 
 # Criar gráfico de barra para a diferença de valores em porcentagem
 fig_avg_profit_diff = px.bar(
-    df_avg_profit_diff.reset_index(),
-    x="city",
+    x=df_avg_profit_diff.index,
     y="averagespread",
-    title=f"Diferença Percentual da Média de Lucro em Relação a {selected_city} ({selected_product} - {selected_city})",
+    data_frame=df_avg_profit_diff.reset_index(),
     labels={"averagespread": "Diferença Percentual (%)"},
+    title=f"Diferença Percentual da Média de Lucro em Relação a {selected_city} ({selected_product} - {selected_city})"
 )
 
 # Mostrar o gráfico no Streamlit
