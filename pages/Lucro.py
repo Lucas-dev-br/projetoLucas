@@ -92,3 +92,32 @@ fig_price_history = px.line(
 
 # Mostrar o gráfico de linhas no Streamlit
 st.plotly_chart(fig_price_history)
+
+# Calcular o percentual de lucro para cada linha
+df_product_prices_melted["pct_lucro"] = ((df_product_prices_melted["price"] - df_product_prices_melted["farmprice"]) / df_product_prices_melted["farmprice"]) * 100
+
+# Adicionar print para verificar os dados antes de aplicar filtros
+print("Dados antes de aplicar filtros:")
+print(df_product_prices_melted)
+
+# Restante do seu código para filtros interativos e gráficos...
+
+# Calcular a média do percentual de lucro agrupado por produto e cidade
+df_avg_pct_lucro = df_product_prices_melted.groupby(["productname", "city"])["pct_lucro"].mean().reset_index()
+
+# Adicionar print para verificar os dados antes de criar o gráfico
+print("Dados antes de criar o gráfico de barras do percentual de lucro:")
+print(df_avg_pct_lucro)
+
+# Criar gráfico de barras para o percentual de lucro médio
+fig_avg_pct_lucro = px.bar(
+    df_avg_pct_lucro,
+    x="city",
+    y="pct_lucro",
+    color="productname",
+    title="Percentual Médio de Lucro por Produto em Cada Cidade",
+    labels={"pct_lucro": "Percentual de Lucro Médio (%)", "city": "Cidade"}
+)
+
+# Mostrar o gráfico no Streamlit
+st.plotly_chart(fig_avg_pct_lucro)
