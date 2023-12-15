@@ -69,11 +69,11 @@ print(df_avg_profit_diff)
 
 # Criar gráfico de barra para a diferença de valores em porcentagem
 fig_avg_profit_diff = px.bar(
-    x=df_avg_profit_diff.index,
+    df_avg_profit_diff.reset_index(),
+    x="city",
     y="averagespread",
-    data_frame=df_avg_profit_diff.reset_index(),
+    title=f"Diferença Percentual da Média de Lucro em Relação a {selected_city} ({selected_product} - {selected_city})",
     labels={"averagespread": "Diferença Percentual (%)"},
-    title=f"Diferença Percentual da Média de Lucro em Relação a {selected_city} ({selected_product} - {selected_city})"
 )
 
 # Mostrar o gráfico no Streamlit
@@ -92,36 +92,3 @@ fig_price_history = px.line(
 
 # Mostrar o gráfico de linhas no Streamlit
 st.plotly_chart(fig_price_history)
-
-print("Colunas em df_product_prices_melted:")
-print(df_product_prices_melted.columns)
-
-
-# Calcular o percentual de lucro para cada linha
-df_product_prices_melted["pct_lucro"] = ((df_product_prices_melted["price"] - df_product_prices_melted["farmprice"]) / df_product_prices_melted["farmprice"]) * 100
-
-# Adicionar print para verificar os dados antes de aplicar filtros
-print("Dados antes de aplicar filtros:")
-print(df_product_prices_melted)
-
-# Restante do seu código para filtros interativos e gráficos...
-
-# Calcular a média do percentual de lucro agrupado por produto e cidade
-df_avg_pct_lucro = df_product_prices_melted.groupby(["productname", "city"])["pct_lucro"].mean().reset_index()
-
-# Adicionar print para verificar os dados antes de criar o gráfico
-print("Dados antes de criar o gráfico de barras do percentual de lucro:")
-print(df_avg_pct_lucro)
-
-# Criar gráfico de barras para o percentual de lucro médio
-fig_avg_pct_lucro = px.bar(
-    df_avg_pct_lucro,
-    x="city",
-    y="pct_lucro",
-    color="productname",
-    title="Percentual Médio de Lucro por Produto em Cada Cidade",
-    labels={"pct_lucro": "Percentual de Lucro Médio (%)", "city": "Cidade"}
-)
-
-# Mostrar o gráfico no Streamlit
-st.plotly_chart(fig_avg_pct_lucro)
