@@ -93,6 +93,10 @@ fig_price_history = px.line(
 # Mostrar o gráfico de linhas no Streamlit
 st.plotly_chart(fig_price_history)
 
+print("Colunas em df_product_prices_melted:")
+print(df_product_prices_melted.columns)
+
+
 # Calcular o percentual de lucro para cada linha
 df_product_prices_melted["pct_lucro"] = ((df_product_prices_melted["price"] - df_product_prices_melted["farmprice"]) / df_product_prices_melted["farmprice"]) * 100
 
